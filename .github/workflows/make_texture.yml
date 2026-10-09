@@ -1,11 +1,13 @@
 name: Generate Low Fire Texture
 
 on:
-  workflow_dispatch: # This adds a manual button to run the script whenever you want
+  workflow_dispatch: 
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Tells GitHub this script is allowed to add files
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
