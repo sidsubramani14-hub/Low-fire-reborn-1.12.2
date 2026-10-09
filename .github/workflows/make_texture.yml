@@ -1,0 +1,35 @@
+name: Generate Low Fire Texture
+
+on:
+  workflow_dispatch: # This adds a manual button to run the script whenever you want
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Install Pillow
+      run: pip install Pillow
+
+    - name: Run Script
+      run: python generate_fire.py
+
+    - name: Move Texture to Correct Folder
+      run: |
+        mkdir -p assets/minecraft/textures/misc/
+        mv texture_fire_layer.png assets/minecraft/textures/misc/texture_fire_layer.png
+
+    - name: Commit and Push Image
+      run: |
+        git config --global user.name "GitHub Action"
+        git config --global user.email "actions@github.com"
+        git add assets/minecraft/textures/misc/texture_fire_layer.png
+        git commit -m "Automated low-fire texture generation" || exit 0
+        git push
